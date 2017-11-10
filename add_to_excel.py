@@ -2,7 +2,7 @@
 from __future__ import print_function
 import httplib2
 import os
-from main import title, image, publicat_de_pe, description, user, price,url
+from get_html_data import main_html
 
 from apiclient import discovery
 from oauth2client import client
@@ -57,6 +57,7 @@ def main():
     students in a sample spreadsheet:
     https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit
     """
+    site = main_html()
     row = 1
     credentials = get_credentials()
     http = credentials.authorize(httplib2.Http())
@@ -70,10 +71,10 @@ def main():
         spreadsheetId=spreadsheetId, range=rangeName).execute()
     values = result.get('values', [])
     value_input_option = 'USER_ENTERED'  # TODO: Update placeholder value.
-    first_cell = '=HYPERLINK("{0}","{1}")'.format(url, title)
-    image_cell = '=IMAGE("{0}",4 , 150, 250)'.format(image)
+    first_cell = '=HYPERLINK("{0}","{1}")'.format(site.url, site.title)
+    image_cell = '=IMAGE("{0}",4 , 150, 250)'.format(site.image)
     value_range_body = {
-        'values': [[first_cell, image_cell, publicat_de_pe, description, user, price],]
+        'values': [[first_cell, image_cell, site.publicat_de_pe, site.description, site.user, site.price],]
     }
 
     while values:
