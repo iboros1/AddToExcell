@@ -76,7 +76,6 @@ def main():
     value_range_body = {
         'values': [[first_cell, image_cell, site.publicat_de_pe, site.description, site.user, site.price],]
     }
-
     while values:
         row += 1
         rangeName = 'Home!A' + str(row)
